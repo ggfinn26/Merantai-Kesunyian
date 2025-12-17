@@ -34,7 +34,18 @@
             </ul>
         </nav>
     </header>
-    <main class="p-20">
+    <main class="p-5 md:p-20">
+        <!-- CBD: Countdown Section -->
+        <section id="countdown-section" class="mb-12 text-center">
+            <h2 class="font-arual text-2xl md:text-3xl lg:text-4xl dark:text-white mb-6">COUNTDOWN OPEN CALL FOR
+                ENTRIES:
+            </h2>
+            <div id="countdown-timer"
+                class="font-renner text-xl md:text-3xl lg:text-5xl dark:text-white border border-black dark:border-white p-6 inline-block">
+                Loading...
+            </div>
+        </section>
+
         <div id="master-slider">
             <section id="slider-gallery"
                 class="relative w-full h-[50vh] md:h-screen overflow-hidden bg-white dark:bg-black h-20">
@@ -92,9 +103,64 @@
             </section>
         </div>
     </main>
-    <footer class="flex w-full h-20 justify-center bg-white dark:bg-black text-black dark:text-white p-20">
-        <p>© 2025 Merantai Kesunyian. All rights reserved.</p>
+    <footer class="bg-white dark:bg-black border-t border-black dark:border-white p-6 mt-8">
+        <div class="flex flex-col items-center gap-6">
+            <!-- Project Logos -->
+            <div class="flex justify-center items-center gap-4">
+                <!-- Dark Mode Logos -->
+                <img class="h-12 w-auto hidden dark:block" src="assets/2.png" alt="logo-2">
+                <img class="h-12 w-auto hidden dark:block" src="assets/1.png" alt="logo-1">
+
+                <!-- Light Mode Logos -->
+                <img class="h-12 w-auto dark:hidden" src="assets/Feed Merantai Kesunyian.png" alt="logo-feed">
+                <img class="h-12 w-auto dark:hidden" src="assets/Feed Merantai Kesunyian (1).png" alt="logo-feed-1">
+            </div>
+
+            <!-- Sponsor Logos -->
+            <div class="flex flex-wrap justify-center items-center gap-4">
+                <img class="h-8 md:h-10 lg:h-12 w-auto object-contain hidden dark:block"
+                    src="assets/logo-danaindonesiana-2.9020d9c.png" alt="logo-danaindonesiana-white">
+                <img class="h-8 md:h-10 lg:h-12 w-auto object-contain dark:hidden"
+                    src="assets/Logo_Dana_Indonesiana.png" alt="logo-danaindonesiana-black">
+                <img class="h-8 md:h-10 lg:h-12 w-auto object-contain"
+                    src="assets/Logo_Kementerian_Kebudayaan_Republik_Indonesia_(2024)_(cropped).svg.png"
+                    alt="logo-kementerian-kebudayaan">
+                <img class="h-8 md:h-10 lg:h-12 w-auto object-contain" src="assets/Logo_resmi_LPDP.png" alt="logo-lpdp">
+            </div>
+            <div class="flex flex-col items-center text-center mt-2">
+                <h1 class="text-lg font-bold text-black dark:text-white mb-1">Merantai Kesunyian</h1>
+                <p class="text-xs text-black dark:text-white font-pencil">© 2025 Merantai Kesunyian. All rights
+                    reserved.</p>
+            </div>
+        </div>
     </footer>
+    <script>
+        // Target Date: December 18, 2025 20:00 WITA (UTC+8)
+        const targetDate = new Date("2025-12-18T20:00:00+08:00").getTime();
+
+        const timerElement = document.getElementById("countdown-timer");
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                timerElement.innerText = "OPEN CALL STARTED!";
+                clearInterval(interval);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            timerElement.innerText = `${days} Hari : ${hours} Jam : ${minutes} Menit : ${seconds} Detik`;
+        }
+
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+    </script>
     <script src="script.js"></script>
 </body>
 
