@@ -135,17 +135,53 @@
         </div>
     </footer>
     <script>
+        // Supabase config
+        const supabaseUrl = 'https://fnltpxqupmjesprihfvr.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZubHRweHF1cG1qZXNwcmloZnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5Njk0MDMsImV4cCI6MjA4MTU0NTQwM30.e8sIIvNXS6ndMd6b8GUPsv7g98WGcJKS2rbpMgRYgT0';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
         // Target Date: December 18, 2025 20:00 WITA (UTC+8)
         const targetDate = new Date("2025-12-18T20:00:00+08:00").getTime();
 
         const timerElement = document.getElementById("countdown-timer");
+        const countdownSection = document.getElementById("countdown-section");
+
+        async function getPendaftarCount() {
+            const { count, error } = await supabaseClient
+                .from('pendaftar')
+                .select('*', { count: 'exact', head: true });
+
+            if (error) {
+                console.error('Error fetching count:', error);
+                return 0;
+            }
+            return count || 0;
+        }
+
+        async function showOpenCallContent() {
+            const pendaftarCount = await getPendaftarCount();
+
+            countdownSection.innerHTML = `
+                <h2 class="text-2xl md:text-3xl lg:text-4xl dark:text-white mb-6">
+                    OPEN CALL FOR ENTRIES TELAH DIBUKA!
+                </h2>
+                <p class="text-lg md:text-xl dark:text-white mb-6">
+                    <span class="font-bold text-2xl md:text-3xl">${pendaftarCount}</span> orang telah mendaftar
+                </p>
+                <a href="daftar_pertanyaan.html" 
+                   class="inline-block px-8 py-4 text-xl md:text-2xl bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    DAFTAR SEKARANG →
+                </a>
+            `;
+        }
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
             if (distance < 0) {
-                timerElement.innerText = "OPEN CALL STARTED!";
+                // Countdown selesai - tampilkan link pendaftaran dan count
+                showOpenCallContent();
                 clearInterval(interval);
                 return;
             }

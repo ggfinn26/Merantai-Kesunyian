@@ -1,13 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Pertanyaan</title>
+    <title>Daftar Pertanyaan - Merantai Kesunyian</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="skring.js"></script>
+    <link rel="icon" type="image/png" href="assets/2.png">
+    <style>
+        /* Form input styling */
+        .form-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid currentColor;
+            padding: 8px 4px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-bottom-width: 3px;
+        }
+
+        /* Error message */
+        .error-message {
+            color: #ef4444;
+            margin-top: 1rem;
+        }
+
+        /* Custom radio button - red center when checked */
+        input[type="radio"] {
+            accent-color: #ef4444;
+        }
+
+        /* Custom checkbox - red when checked */
+        input[type="checkbox"] {
+            accent-color: #ef4444;
+        }
+    </style>
 </head>
 
 <body class="m-0 p-0 bg-white dark:bg-black">
@@ -35,618 +68,679 @@
             </ul>
         </nav>
     </header>
-    <main class="bg-black box-content size-cover box-border border-4 p-4 border-black dark:border-white dark:text-white"
-        id="daftarForm">
-        <h1 class="text-2xl font-bold text-center text-black dark:text-white mt-10 p-10">Daftar Pertanyaan</h1>
-        <div class="my-8">
-            <div class="w-3/4 mx-auto bg-gray-600 rounded-full h-4">
-                <div class="bg-white text-xs font-medium text-black text-center p-0.5 leading-none rounded-full h-4 flex items-center justify-center"
-                    style="width: 45%">45%</div>
+
+    <form class="p-5 md:p-10" id="daftarForm">
+        <!-- Progress Bar -->
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="flex justify-between text-sm dark:text-white mb-2">
+                <span id="section-title" class="font-arual">Bagian 1: Data Diri</span>
+                <span id="progress-text">4%</span>
+            </div>
+            <div class="w-full bg-gray-300 dark:bg-gray-700 h-2">
+                <div id="progress-bar-fill" class="bg-black dark:bg-white h-2 transition-all duration-500"
+                    style="width: 4%"></div>
             </div>
         </div>
-        <section id="step-1">
-            <div>
-                <h1 class="text-2xl font-bold text-center text-black dark:text-white">Bagian 1: Data Diri</h1>
-                <div>
-                    <label class="block text-center p-20 place-content-center" for="nama" required>Nama Lengkap</label>
-                    <input
-                        class="block mx-auto border-b-2 border-gray-300 rounded focus:outline-none focus:border-b-2 focus:border-white"
-                        type="text" id="nama" name="nama">
-                    <button
-                        class="block mx-auto mt-4 px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(2)">Next</button>
-                </div>
-                <div class="hidden" id="step-2">
-                    <label class="block text-center p-20 place-content-center" for="email" required>Email</label>
-                    <input
-                        class="block mx-auto border-b-2 border-gray-300 rounded focus:outline-none focus:border-b-2 focus:border-white"
-                        type="email" id="email" name="email">
-                    <button
-                        class="block mx-auto mt-4 px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(3)">Next</button>
-                </div>
-                <div class="hidden" id="step-3">
-                    <label class="block text-center p-20 place-content-center" for="whatsapp" required>Nomor
-                        WhatsApp</label>
-                    <input
-                        class="block mx-auto border-b-2 border-gray-300 rounded focus:outline-none focus:border-b-2 focus:border-white"
-                        type="tel" id="whatsapp" name="whatsapp"
-                        pattern="^(\+62|62)?[\s-]?0?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$"
-                        title="Format: 08xx... atau +628xx...">
-                    <button
-                        class="block mx-auto mt-4 px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(4)">Next</button>
-                </div>
-                <div id="step-4" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="jenis-kelamin">Jenis Kelamin</label>
-                    </div>
-                    <!-- PILIHAN 1: Laki-laki -->
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="jk-lk" name="jenis-kelamin"
-                            value="Laki-laki" required>
-                        <label class="cursor-pointer" for="jk-lk">Laki-laki</label>
-                    </div>
-                    <!-- PILIHAN 2: Perempuan -->
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="jk-pr" name="jenis-kelamin"
-                            value="Perempuan">
-                        <label class="cursor-pointer" for="jk-pr">Perempuan</label>
-                    </div>
-                    <!-- PILIHAN 3: Tidak Menjawab -->
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="jk-tm" name="jenis-kelamin"
-                            value="Tidak Menjawab">
-                        <label class="cursor-pointer" for="jk-tm">Memilih Tidak Menjawab</label>
-                    </div>
-                    <!-- PILIHAN 4: Lainnya -->
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="jk-lain"
-                            name="jenis-kelamin" value="Lainnya">
-                        <label class="cursor-pointer" for="jk-lain">Lainnya</label>
-                        <input
-                            class="border-b-2 border-gray-300 rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="jenis-kelamin-lainnya" name="jenis-kelamin-lainnya">
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(3)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(5)">Next</button>
-                    </div>
-                </div>
-                <!-- Domisili -->
-                <div id="step-5" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="domisili">Domisili</label>
-                    </div>
-                    <!-- PILIHAN DOMISILI 1: Makassar -->
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <label class="cursor-pointer" for="dom-mks">Makassar</label>
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="dom-mks" name="domisili"
-                            value="Makassar" required>
-                    </div>
-                    <!-- PILIHAN DOMISILI 2: Gowa -->
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <label class="cursor-pointer" for="dom-gowa">Gowa</label>
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="dom-gowa" name="domisili"
-                            value="Gowa">
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <label class="cursor-pointer" for="dom-takalar">Takalar</label>
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="dom-takalar" name="domisili"
-                            value="Takalar">
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <label class="cursor-pointer" for="dom-maros">Maros</label>
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="dom-maros" name="domisili"
-                            value="Maros">
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <label class="cursor-pointer" for="dom-lain">Lainnya</label>
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="dom-lain" name="domisili"
-                            value="Lainnya">
-                        <input
-                            class="border-b-2 border-gray-300 rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="domisili-lainnya" name="domisili-lainnya">
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(4)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(6)">Next</button>
-                    </div>
-                </div>
-                <div id="step-6" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="pekerjaan-atau-aktivitas">Pekerjaan
-                            atau Aktivitas Saat Ini</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-gray-300 rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="pekerjaan_atau_aktivitas" name="pekerjaan_atau_aktivitas" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(5)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(7)">Next</button>
-                    </div>
-                </div>
-                <div id="step-7" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="akun-instagram">Akun
-                            Instagram</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-white rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="akun-instagram" name="akun-instagram" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(6)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(8)">Next</button>
-                    </div>
-                </div>
-                <div id="step-8" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="akun-facebook">Akun
-                            Facebook</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-white rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="akun-facebook" name="akun-facebook" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(7)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(9)">Next</button>
-                    </div>
-                </div>
-                <div id="step-9" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="akun-threads">Akun
-                            Threads</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-white rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="akun-threads" name="akun-threads" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(8)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(10)">Next</button>
-                    </div>
-                </div>
-                <div id="step-10" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="akun-x">Akun X</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-white rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="akun-x" name="akun-x" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(9)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(11)">Next</button>
-                    </div>
-                </div>
-                <div id="step-11" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="akun-medium">Akun
-                            Medium</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-white rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="text" id="akun-medium" name="akun-medium" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(10)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(12)">Next</button>
-                    </div>
-                </div>
-                <div id="step-12" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="blog-url">URL Blog</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-white rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="url" id="blog-url" name="blog-url" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(11)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(13)">Next</button>
-                    </div>
-                </div>
-                <div id="step-13" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center gap-2 mb-2" for="usia">Usia</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input
-                            class="border-b-2 border-white rounded focus:outline-none focus:border-b-2 focus:border-white"
-                            type="number" id="usia" name="usia" required>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                            type="button" onclick="nextStep(12)">Kembali</button>
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            type="button" onclick="nextStep(14)">Next</button>
-                    </div>
-                </div>
-                <div id="step-14" class="hidden">
-                    <div class="mt-4">
-                        <label class="block text-center p-20 place-content-center" for="pendidikan">Pendidikan
-                            Terakhir</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-sd" name="pendidikan"
-                            value="SD" required>
-                        <label class="cursor-pointer" for="edu-sd">SD</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-smp" name="pendidikan"
-                            value="SMP">
-                        <label class="cursor-pointer" for="edu-smp">SMP</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-sma" name="pendidikan"
-                            value="SMA">
-                        <label class="cursor-pointer" for="edu-sma">SMA</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-d3" name="pendidikan"
-                            value="D3">
-                        <label class="cursor-pointer" for="edu-d3">D3</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-s1" name="pendidikan"
-                            value="S1/D4">
-                        <label class="cursor-pointer" for="edu-s1">S1/D4</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-s2" name="pendidikan"
-                            value="S2">
-                        <label class="cursor-pointer" for="edu-s2">S2</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-s3" name="pendidikan"
-                            value="S3">
-                        <label class="cursor-pointer" for="edu-s3">S3</label>
-                    </div>
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <input class="accent-black w-4 h-4 cursor-pointer" type="radio" id="edu-none" name="pendidikan"
-                            value="Tidak Sekolah">
-                        <label class="cursor-pointer" for="edu-none">Tidak Sekolah</label>
-                    </div>
-                    <button
-                        class="block mx-auto mt-4 px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(15)">Next</button>
-                </div>
+
+        <!-- BAGIAN 1: DATA DIRI -->
+
+        <!-- Step 1: Nama -->
+        <div id="step-1"
+            class="my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Nama Lengkap</h2>
+            <input type="text" id="nama" name="nama" required class="form-input dark:text-white dark:border-white"
+                placeholder="Ketik nama lengkap...">
+            <div class="mt-8">
+                <button type="button" onclick="nextStep(2)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
             </div>
-        </section>
+        </div>
+
+        <!-- Step 2: Email -->
+        <div id="step-2"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Email</h2>
+            <input type="email" id="email" name="email" required class="form-input dark:text-white dark:border-white"
+                placeholder="contoh@email.com">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(1)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(3)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: WhatsApp -->
+        <div id="step-3"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Nomor WhatsApp</h2>
+            <input type="tel" id="whatsapp" name="whatsapp" required
+                class="form-input dark:text-white dark:border-white" placeholder="08xxxxxxxxxx">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(2)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(4)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 4: Jenis Kelamin -->
+        <div id="step-4"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Jenis Kelamin</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="jenis-kelamin" value="Laki-laki" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Laki-laki</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="jenis-kelamin" value="Perempuan"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Perempuan</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="jenis-kelamin" value="Tidak Menjawab"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Memilih tidak menjawab</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="jenis-kelamin" value="Lainnya"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Lainnya:</span>
+                    <input type="text" id="jenis-kelamin-lainnya"
+                        class="form-input !max-w-[150px] !text-left dark:text-white" placeholder="...">
+                </label>
+            </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(3)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(5)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 5: Domisili -->
+        <div id="step-5"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Domisili</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="domisili" value="Makassar" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Makassar</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="domisili" value="Gowa" class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Gowa</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="domisili" value="Takalar" class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Takalar</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="domisili" value="Maros" class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Maros</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="domisili" value="Lainnya" class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Lainnya:</span>
+                    <input type="text" id="domisili-lainnya"
+                        class="form-input !max-w-[150px] !text-left dark:text-white" placeholder="...">
+                </label>
+            </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(4)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(6)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 6: Pekerjaan -->
+        <div id="step-6"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Pekerjaan/Aktivitas Saat Ini</h2>
+            <input type="text" id="pekerjaan_atau_aktivitas" name="pekerjaan_atau_aktivitas" required
+                class="form-input dark:text-white dark:border-white" placeholder="Contoh: Mahasiswa, Penulis, dll">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(5)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(7)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 7-11: Social Media (combined for brevity) -->
+        <div id="step-7"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-2">Akun Instagram</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Pastikan publik dan dapat diakses. Jika tidak punya
+                tulis -</p>
+            <input type="text" id="akun-instagram" name="akun-instagram" required
+                class="form-input dark:text-white dark:border-white" placeholder="@username">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(6)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(8)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <div id="step-8"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-2">Akun Facebook</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Pastikan publik dan dapat diakses. Jika tidak punya
+                tulis -</p>
+            <input type="text" id="akun-facebook" name="akun-facebook" required
+                class="form-input dark:text-white dark:border-white" placeholder="Nama atau link profil">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(7)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(9)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <div id="step-9"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-2">Akun Threads</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Pastikan publik dan dapat diakses. Jika tidak punya
+                tulis -</p>
+            <input type="text" id="akun-threads" name="akun-threads" required
+                class="form-input dark:text-white dark:border-white" placeholder="@username">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(8)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(10)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <div id="step-10"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-2">Akun X (Twitter)</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Pastikan publik dan dapat diakses. Jika tidak punya
+                tulis -</p>
+            <input type="text" id="akun-x" name="akun-x" required class="form-input dark:text-white dark:border-white"
+                placeholder="@username">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(9)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(11)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <div id="step-11"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-2">Akun Medium</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Pastikan publik dan dapat diakses. Jika tidak punya
+                tulis -</p>
+            <input type="text" id="akun-medium" name="akun-medium" required
+                class="form-input dark:text-white dark:border-white" placeholder="@username">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(10)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(12)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <div id="step-12"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-2">URL Blog</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Jika tidak punya tulis -</p>
+            <input type="text" id="blog-url" name="blog-url" required
+                class="form-input dark:text-white dark:border-white" placeholder="https://blog.anda.com">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(11)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(13)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <div id="step-13"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Usia</h2>
+            <input type="number" id="usia" name="usia" required min="10" max="100"
+                class="form-input dark:text-white dark:border-white" placeholder="Contoh: 25">
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(12)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(14)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 14: Pendidikan -->
+        <div id="step-14"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-6">Pendidikan Terakhir</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="Tidak Sekolah" required class="w-4 h-4">
+                    <span>Tidak Sekolah</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="SD" class="w-4 h-4">
+                    <span>SD</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="SMP" class="w-4 h-4">
+                    <span>SMP</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="SMA" class="w-4 h-4">
+                    <span>SMA</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="D3" class="w-4 h-4">
+                    <span>D3</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="S1/D4" class="w-4 h-4">
+                    <span>S1/D4</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="S2" class="w-4 h-4">
+                    <span>S2</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pendidikan" value="S3" class="w-4 h-4">
+                    <span>S3</span>
+                </label>
+            </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(13)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(15)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
+        </button>
+        </div>
+        </div>
+
         <!-- BAGIAN 2: KRITERIA -->
-        <!-- Step 15: Publish Book -->
-        <div id="step-15" class="hidden">
-            <div class="mt-4">
-                <h1 class="text-2xl font-bold text-center text-black dark:text-white mb-4">Bagian 2: Kriteria</h1>
-                <label class="block text-center p-20 place-content-center" for="kriteria-buku">Apakah
-                    Anda pernah menerbitkan buku puisi sebelumnya (baik tunggal maupun antologi)?</label>
+
+        <!-- Step 15 -->
+        <div id="step-15"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apakah Anda pernah menerbitkan buku puisi
+                sebelumnya?</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-kriteria-pertama" value="Ya" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Ya, pernah</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-kriteria-pertama" value="Tidak"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Belum pernah</span>
+                </label>
             </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded " type="radio"
-                    id="buku-ya" name="pertanyaan-kriteria-pertama" value="Ya" required>
-                <label class="cursor-pointer" for="buku-ya">Ya</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="radio"
-                    id="buku-tidak" name="pertanyaan-kriteria-pertama" value="Tidak">
-                <label class="cursor-pointer" for="buku-tidak">Tidak</label>
-            </div>
-            <div class="flex justify-between mt-8">
-                <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600" type="button"
-                    onclick="nextStep(14)">Kembali</button>
-                <button
-                    class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                    type="button" onclick="nextStep(16)">Lanjut</button>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(14)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(16)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
             </div>
         </div>
 
-        <!-- Step 16: Background Sastra -->
-        <div id="step-16" class="hidden">
-            <div class="mt-4">
-                <label class="block text-center p-20 place-content-center" for="kriteria-sastra">Apakah Anda
-                    merasa memiliki latar belakang pendidikan formal di bidang Sastra?</label>
+        <!-- Step 16 -->
+        <div id="step-16"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apakah Anda memiliki latar belakang
+                pendidikan formal di bidang Sastra?</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-kriteria-kedua" value="Ya" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Ya</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-kriteria-kedua" value="Tidak"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Tidak</span>
+                </label>
             </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="radio"
-                    id="sastra-ya" name="pertanyaan-kriteria-kedua" value="Ya">
-                <label class="cursor-pointer" for="sastra-ya">Ya</label>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(15)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(17)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
             </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="radio"
-                    id="sastra-tidak" name="pertanyaan-kriteria-kedua" value="Tidak">
-                <label class="cursor-pointer" for="sastra-tidak">Tidak</label>
+        </div>
+
+        <!-- Step 17: Kategori -->
+        <div id="step-17"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="text-xl md:text-2xl dark:text-white mb-6">Kategori yang menggambarkan diri Anda</h2>
+            <p class="text-sm dark:text-gray-300 mb-4">(Pilih yang sesuai)</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg mx-auto text-left">
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" name="pertanyaan-kriteria-ketiga" value="Lansia" required class="w-4 h-4">
+                    <span>Lansia</span>
+                </label>
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" name="pertanyaan-kriteria-ketiga" value="Anak-Anak" class="w-4 h-4">
+                    <span>Anak-Anak</span>
+                </label>
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" name="pertanyaan-kriteria-ketiga" value="Perempuan" class="w-4 h-4">
+                    <span>Perempuan</span>
+                </label>
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" name="pertanyaan-kriteria-ketiga" value="Penyandang Disabilitas"
+                        class="w-4 h-4">
+                    <span>Penyandang Disabilitas</span>
+                </label>
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" name="pertanyaan-kriteria-ketiga" value="Masyarakat Pra-Sejahtera"
+                        class="w-4 h-4">
+                    <span>Masyarakat Pra-Sejahtera</span>
+                </label>
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" name="pertanyaan-kriteria-ketiga" value="Korban Krisis Iklim"
+                        class="w-4 h-4">
+                    <span>Korban Krisis Iklim</span>
+                </label>
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" name="pertanyaan-kriteria-ketiga" value="Korban Penggusuran" class="w-4 h-4">
+                    <span>Korban Penggusuran</span>
+                </label>
+                <label
+                    class="flex items-center gap-3 cursor-pointer dark:text-white p-3 border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    <input type="checkbox" id="checkbox-lainnya" name="pertanyaan-kriteria-ketiga" value="Lainnya"
+                        class="w-4 h-4" onchange="toggleLainnyaContainer()">
+                    <span>Lainnya</span>
+                </label>
             </div>
-            <div class="flex justify-between mt-8">
-                <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600" type="button"
-                    onclick="nextStep(15)">Kembali</button>
-                <button
-                    class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                    type="button" onclick="nextStep(17)">Lanjut</button>
+
+            <!-- Container untuk input Lainnya (hidden by default) -->
+            <div id="lainnya-container" class="hidden mt-4">
+                <div id="lainnya-inputs" class="flex flex-col gap-2 items-center">
+                    <input type="text" name="kategori-lainnya[]" class="form-input dark:text-white dark:border-white"
+                        placeholder="Sebutkan kategori lainnya...">
+                </div>
+                <button type="button" onclick="addLainnyaInput()"
+                    class="mt-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    + Tambah Lainnya
+                </button>
+            </div>
+
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(16)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(18)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
             </div>
         </div>
 
-        <!-- Step 17: Kategori Peserta (Checkbox) -->
-        <div id="step-17" class="hidden">
-            <div class="mt-4">
-                <label class="block text-center p-20 place-content-center" for="kriteria-peserta">Kategori
-                    Peserta (Pilih yang paling menggambarkan diri Anda):</label>
-            </div>
-            <!-- Checkboxes -->
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-lansia" name="pertanyaan-kriteria-ketiga" value="Lansia">
-                <label class="cursor-pointer" for="kat-lansia">Lansia</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-anak" name="pertanyaan-kriteria-ketiga" value="Anak-Anak">
-                <label class="cursor-pointer" for="kat-anak">Anak-Anak</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-pr" name="pertanyaan-kriteria-ketiga" value="Perempuan">
-                <label class="cursor-pointer" for="kat-pr">Perempuan</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-disabilitas" name="pertanyaan-kriteria-ketiga" value="Penyandang Disabilitas">
-                <label class="cursor-pointer" for="kat-disabilitas">Penyandang Disabilitas</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-prasejahtera" name="pertanyaan-kriteria-ketiga" value="Masyarakat Pra-Sejahtera">
-                <label class="cursor-pointer" for="kat-prasejahtera">Masyarakat Pra-Sejahtera</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-iklim" name="pertanyaan-kriteria-ketiga" value="Masyarakat Terdampak Krisis Iklim">
-                <label class="cursor-pointer" for="kat-iklim">Masyarakat Terdampak Krisis Iklim</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-gusur" name="pertanyaan-kriteria-ketiga" value="Korban Penggusuran">
-                <label class="cursor-pointer" for="kat-gusur">Korban Penggusuran</label>
-            </div>
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <input class="accent-black w-4 h-4 cursor-pointer border border-gray-300 rounded" type="checkbox"
-                    id="kat-lain" name="pertanyaan-kriteria-ketiga" value="Lainnya">
-                <label class="cursor-pointer" for="kat-lain">Lainnya</label>
-                <input class="border border-gray-300 rounded" type="text" id="kategori-lainnya"
-                    name="pertanyaan-kriteria-ketiga-lainnya">
-            </div>
-            <div class="flex justify-between mt-8">
-                <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600" type="button"
-                    onclick="nextStep(16)">Kembali</button>
-                <button
-                    class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                    type="button" onclick="nextStep(18)">Lanjut</button>
+        <!-- BAGIAN 3: MINAT & MOTIVASI -->
+
+        <!-- Step 18 -->
+        <div id="step-18"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apa yang membuat Anda tertarik mengikuti
+                proyek ini?</h2>
+            <textarea id="minat-essay" name="pertanyaan-minat-motivasi-pertama" required
+                class="form-input !max-w-full !text-left h-32 resize-none dark:text-white dark:border-white border border-black dark:border-white p-4"
+                placeholder="Ceritakan motivasi dan ketertarikan Anda..."></textarea>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(17)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(19)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
             </div>
         </div>
-        <!-- BAGIAN 3 -->
-        <section>
-            <!-- Step 18: Tertarik (Essay) -->
-            <div id="step-18" class="hidden">
-                <div class="mt-4">
-                    <h1 class="text-2xl font-bold text-center text-black dark:text-white mb-4">Bagian 3: Minat dan
-                        Motivasi</h1>
-                    <label class="block text-center p-20 place-content-center" for="minat-essay">Apa
-                        yang membuat Anda tertarik mengikuti proyek "Merantai Kesunyian"?</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="border-b-2 border-white rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="text" id="minat-essay" name="pertanyaan-minat-motivasi-pertama">
-                </div>
-                <div class="flex justify-between mt-8">
-                    <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                        type="button" onclick="nextStep(17)">Kembali</button>
-                    <button
-                        class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(19)">Lanjut</button>
-                </div>
-            </div>
 
-            <!-- Step 19: Berbagi Cerita (Radio) -->
-            <div id="step-19" class="hidden">
-                <div class="mt-4">
-                    <label class="block text-center p-20 place-content-center" for="minat-berbagi">Apakah
-                        Anda bersedia berbagi cerita hidup atau pengalaman pribadi dalam sesi bercerita
-                        mingguan?</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="accent-black border-gray-300 rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="radio" id="berbagi-ya" name="pertanyaan-minat-motivasi-kedua" value="Ya">
-                    <label for="berbagi-ya">Ya</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="accent-black border-gray-300 rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="radio" id="berbagi-tidak" name="pertanyaan-minat-motivasi-kedua" value="Tidak">
-                    <label for="berbagi-tidak">Tidak</label>
-                </div>
-                <div class="flex justify-between mt-8">
-                    <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                        type="button" onclick="nextStep(18)">Kembali</button>
-                    <button
-                        class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(20)">Lanjut</button>
-                </div>
+        <!-- Step 19-20 -->
+        <div id="step-19"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apakah Anda bersedia berbagi cerita hidup
+                dalam sesi bercerita mingguan?</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-minat-motivasi-kedua" value="Ya" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Ya, bersedia</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-minat-motivasi-kedua" value="Tidak"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Tidak</span>
+                </label>
             </div>
-
-            <!-- Step 20: Kerja Sama (Radio) -->
-            <div id="step-20" class="hidden">
-                <div class="mt-4">
-                    <label class="block text-center p-20 place-content-center" for="minat-kerjasama">Apakah Anda nyaman
-                        bekerja sama dalam tim untuk
-                        membuat satu karya tulisan (kolaborasi)?</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="accent-black border-gray-300 rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="radio" id="kerjasama-ya" name="pertanyaan-minat-motivasi-ketiga" value="Ya">
-                    <label for="kerjasama-ya">Ya</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="accent-black border-gray-300 rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="radio" id="kerjasama-tidak" name="pertanyaan-minat-motivasi-ketiga" value="Tidak">
-                    <label for="kerjasama-tidak">Tidak</label>
-                </div>
-                <div class="flex justify-between mt-8">
-                    <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                        type="button" onclick="nextStep(19)">Kembali</button>
-                    <button
-                        class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(21)">Lanjut</button>
-                </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(18)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(20)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
             </div>
-        </section>
-        <!-- BAGIAN 4 -->
-        <section>
-            <!-- Step 21: Komitmen Mingguan -->
-            <div id="step-21" class="hidden">
-                <div class="mt-4">
-                    <h1 class="text-2xl font-bold text-center text-black dark:text-white mb-4">Bagian 4: Komitmen Waktu
-                    </h1>
-                    <label class="block text-center p-20 place-content-center" for="komitmen-rutin">Kegiatan ini akan
-                        berlangsung secara mingguan. Apakah
-                        Anda bersedia meluangkan waktu untuk pertemuan rutin?</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="accent-black border-gray-300 rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="radio" id="rutin-ya" name="pertanyaan-komitmen-waktu-pertama" value="Ya">
-                    <label for="rutin-ya">Ya</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input class="border border-gray-300 rounded" type="radio" id="rutin-tidak"
-                        name="pertanyaan-komitmen-waktu-pertama" value="Tidak">
-                    <label for="rutin-tidak">Tidak</label>
-                </div>
-                <div class="flex justify-between mt-8">
-                    <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                        type="button" onclick="nextStep(20)">Kembali</button>
-                    <button
-                        class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(22)">Lanjut</button>
-                </div>
+        </div>
+
+        <div id="step-20"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apakah Anda nyaman bekerja sama dalam tim
+                untuk membuat karya kolaborasi?</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-minat-motivasi-ketiga" value="Ya" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Ya, nyaman</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-minat-motivasi-ketiga" value="Tidak"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Tidak</span>
+                </label>
             </div>
-
-            <!-- Step 22: Komitmen Pelatihan -->
-            <div id="step-22" class="hidden">
-                <div class="mt-4">
-                    <label class="block text-center p-20 place-content-center" for="komitmen-pelatihan">Apakah Anda
-                        bersedia mengikuti rangkaian kegiatan sesi
-                        Pelatihan & Pengayaan?</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="accent-black border-gray-300 rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="radio" id="pelatihan-ya" name="pertanyaan-komitmen-waktu-kedua" value="Ya">
-                    <label for="pelatihan-ya">Ya</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input class="border border-gray-300 rounded" type="radio" id="pelatihan-tidak"
-                        name="pertanyaan-komitmen-waktu-kedua" value="Tidak">
-                    <label for="pelatihan-tidak">Tidak</label>
-                </div>
-                <div class="flex justify-between mt-8">
-                    <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                        type="button" onclick="nextStep(21)">Kembali</button>
-                    <button
-                        class="px-6 py-2 bg-black text-white rounded cursor-pointer hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        type="button" onclick="nextStep(23)">Lanjut</button>
-                </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(19)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(21)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
             </div>
+        </div>
 
-            <!-- Step 23: Komitmen Penciptaan -->
-            <div id="step-23" class="hidden">
-                <div class="mt-4">
-                    <label class="block text-center p-20 place-content-center" for="komitmen-karya">Apakah Anda bersedia
-                        berkomitmen untuk fase penciptaan
-                        karya (Pertemuan Mingguan 2-3 seminggu) selama 6-9 bulan?</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input
-                        class="accent-black border-gray-300 rounded focus:border-white focus:outline-none focus:ring-white"
-                        type="radio" id="karya-ya" name="pertanyaan-komitmen-waktu-ketiga" value="Ya">
-                    <label for="karya-ya">Ya</label>
-                </div>
-                <div class="flex items-center justify-center gap-2 mb-2">
-                    <input class="border border-gray-300 rounded" type="radio" id="karya-tidak"
-                        name="pertanyaan-komitmen-waktu-ketiga" value="Tidak">
-                    <label for="karya-tidak">Tidak</label>
-                </div>
-                <div class="flex justify-between mt-8">
-                    <button class="px-6 py-2 bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600"
-                        type="button" onclick="nextStep(22)">Kembali</button>
-                    <button class="px-6 py-2 bg-green-600 text-white rounded cursor-pointer hover:bg-green-700"
-                        type="submit" onclick="nextStep(24)">Kirim Jawaban</button>
-                </div>
+        <!-- BAGIAN 4: KOMITMEN WAKTU -->
+
+        <div id="step-21"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apakah Anda bersedia meluangkan waktu untuk
+                pertemuan rutin mingguan?</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-komitmen-waktu-pertama" value="Ya" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Ya, bersedia</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-komitmen-waktu-pertama" value="Tidak"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Tidak</span>
+                </label>
             </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(20)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(22)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
 
-            <!-- Pre-Submit / Final Step (Optional) or trigger submit on step 23 logic -->
-        </section>
+        <div id="step-22"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apakah Anda bersedia mengikuti sesi
+                Pelatihan & Pengayaan?</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-komitmen-waktu-kedua" value="Ya" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Ya, bersedia</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-komitmen-waktu-kedua" value="Tidak"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Tidak</span>
+                </label>
+            </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(21)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="nextStep(23)"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Lanjutkan →
+                </button>
+            </div>
+        </div>
 
-        <section id="step-24" class="hidden">
-            <h1 class="text-2xl font-bold text-center text-black dark:text-white">Penutup</h1>
-            <p class="text-center text-black dark:text-white">Terima kasih atas ketertarikan Anda. Tim seleksi akan
-                melakukan kurasi dan menghubungi kandidat terpilih untuk proses wawancara.</p>
-        </section>
-    </main>
+        <div id="step-23"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-xl md:text-2xl dark:text-white mb-6">Apakah Anda berkomitmen untuk fase
+                penciptaan karya (2-3x/minggu) selama 6-9 bulan?</h2>
+            <div class="flex flex-col gap-3 items-center">
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-komitmen-waktu-ketiga" value="Ya" required
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Ya, berkomitmen</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer dark:text-white">
+                    <input type="radio" name="pertanyaan-komitmen-waktu-ketiga" value="Tidak"
+                        class="w-4 h-4 accent-black dark:accent-white">
+                    <span>Tidak</span>
+                </label>
+            </div>
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="button" onclick="nextStep(22)"
+                    class="px-6 py-3 bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                    ← Kembali
+                </button>
+                <button type="button" onclick="submitForm()"
+                    class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                    Kirim Jawaban ✓
+                </button>
+            </div>
+        </div>
+
+        <!-- PENUTUP -->
+        <div id="step-24"
+            class="hidden my-8 mx-auto p-6 md:p-10 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 border border-black dark:border-white text-center">
+            <h2 class="font-arual text-2xl md:text-3xl dark:text-white mb-6">Terima Kasih!</h2>
+            <p class="font-pencil dark:text-white mb-8">
+                Formulir Anda telah berhasil dikirim.<br>
+                Tim seleksi akan melakukan kurasi dan menghubungi kandidat terpilih untuk proses wawancara.
+            </p>
+            <a href="index.html"
+                class="inline-block px-8 py-3 bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white transition-colors">
+                Kembali ke Beranda
+            </a>
+        </div>
+    </form>
+
     <footer class="bg-white dark:bg-black border-t border-black dark:border-white p-6 mt-8">
         <div class="flex flex-col items-center gap-6">
-            <!-- Project Logos -->
             <div class="flex justify-center items-center gap-4">
-                <!-- Dark Mode Logos -->
                 <img class="h-12 w-auto hidden dark:block" src="assets/2.png" alt="logo-2">
                 <img class="h-12 w-auto hidden dark:block" src="assets/1.png" alt="logo-1">
-
-                <!-- Light Mode Logos -->
                 <img class="h-12 w-auto dark:hidden" src="assets/Feed Merantai Kesunyian.png" alt="logo-feed">
                 <img class="h-12 w-auto dark:hidden" src="assets/Feed Merantai Kesunyian (1).png" alt="logo-feed-1">
             </div>
-
-            <!-- Sponsor Logos -->
             <div class="flex flex-wrap justify-center items-center gap-4">
                 <img class="h-8 md:h-10 lg:h-12 w-auto object-contain hidden dark:block"
                     src="assets/logo-danaindonesiana-2.9020d9c.png" alt="logo-danaindonesiana-white">
@@ -658,11 +752,13 @@
             </div>
             <div class="flex flex-col items-center text-center mt-2">
                 <h1 class="text-lg font-bold text-black dark:text-white mb-1">Merantai Kesunyian</h1>
-                <p class="text-xs text-black dark:text-white font-pencil">© 2025 Merantai Kesunyian. All rights
+                <p class="text-xs text-black dark:text-white">© 2025 Merantai Kesunyian. All rights
                     reserved.</p>
             </div>
         </div>
     </footer>
+
+    <script src="skring.js"></script>
 </body>
 
 </html>
